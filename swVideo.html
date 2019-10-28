@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US">
+
+<head>
+    <script src='js/globals.js'></script>
+    <style>
+        html {
+            overflow: hidden;
+        }
+
+        body {
+            background: url('images/background.jpg') no-repeat fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+            overflow: hidden;
+        }
+
+        video#bgvid {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: auto;
+            -webkit-transform: translateX(-50%) translateY(-50%);
+            transform: translateX(-50%) translateY(-50%);
+            margin: 0px;
+            padding: 0px;
+        }
+    </style>
+
+    <meta charset=utf-8 />
+    <title>SW Sample</title>
+</head>
+
+<body>
+
+    <div id="theVideo">
+
+    </div>
+
+    <script type="text/javascript">
+        //create dynamic image
+        window.onload = function () {
+            var elem = document.createElement("video");
+            elem.setAttribute("src", myVideo); //myVideo is defined in js/globals.js
+            elem.setAttribute("autoplay", "true");
+            document.getElementById("theVideo").appendChild(elem);
+            elem.autoplay = true;
+            elem.id = 'bgvid';
+            elem.muted = true;
+            elem.load();
+        }
+
+        // register the serviceworker and add variables for version and img src
+        //https://stackoverflow.com/questions/44424709/passing-state-info-into-a-service-worker-before-install
+        const swUrl = 'swVideo.js?myVersion=' + encodeURIComponent(myVersion) + "&myVideo=" + encodeURIComponent(myVideo);
+        navigator.serviceWorker.register(swUrl, {
+            // The scope cannot be parent to the script url
+            scope: './'
+        });
+
+
+        function play() {
+            var elem = document.getElementById("bgvid");
+            elem.play();
+        }
+
+    </script>
+
+</body>
